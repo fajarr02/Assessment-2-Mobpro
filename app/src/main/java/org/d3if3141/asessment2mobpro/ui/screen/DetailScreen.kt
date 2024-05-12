@@ -1,6 +1,7 @@
 package org.d3if3141.asessment2mobpro.ui.screen
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,15 +39,22 @@ import androidx.compose.ui.unit.dp
 import org.d3if3141.asessment2mobpro.R
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import org.d3if3141.asessment2mobpro.database.PinjamanDb
+import org.d3if3141.asessment2mobpro.util.ViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(navController: NavHostController, id: Long? = null) {
-    val viewModel: DetailViewModel = viewModel()
+
+    val context = LocalContext.current
+    val db = PinjamanDb.getInstance(context)
+    val factory = ViewModelFactory(db.dao)
+    val viewModel: DetailViewModel = viewModel(factory = factory)
 
     var nama by remember { mutableStateOf("") }
     var jumlah by remember { mutableStateOf("") }
@@ -88,7 +96,16 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
                     titleContentColor = MaterialTheme.colorScheme.primary
                 ),
                 actions = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = {
+                        if (nama == "" || jumlah == "" || tenggat == "") {
+                            Toast.makeText(context, R.string.invalid, Toast.LENGTH_SHORT).show()
+                            return@IconButton
+                        }
+
+                        if (id == null) {
+                            viewModel.insert(nama, jumlah, tenggat)
+                        }
+                        navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Outlined.Check,
                             contentDescription = stringResource(id = R.string.simpan),

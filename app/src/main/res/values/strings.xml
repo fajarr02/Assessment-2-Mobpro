@@ -17,4 +17,6 @@
     <string name="enambln">6 Bulan</string>
     <string name="tigabln">3 Bulan</string>
 
+    <string name="invalid">nama, jumlah dan tenggat cacatan tidak boleh kosong.</string>
+
 </resources>
