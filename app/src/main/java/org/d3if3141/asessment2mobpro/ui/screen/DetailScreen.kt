@@ -39,12 +39,15 @@ import org.d3if3141.asessment2mobpro.R
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(navController: NavHostController, id: Long? = null) {
+    val viewModel: DetailViewModel = viewModel()
+
     var nama by remember { mutableStateOf("") }
     var jumlah by remember { mutableStateOf("") }
     var tenggat by remember { mutableStateOf("") }
@@ -55,7 +58,12 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
         stringResource(id = R.string.enambln)
     )
 
-
+    if (id != null) {
+        val data = viewModel.getPeminjaman(id)
+        nama = data.nama
+        jumlah = data.jumlah
+        tenggat = data.tenggat
+    }
 
     Scaffold(
         topBar = {
@@ -166,12 +174,12 @@ fun PeminjamanOption(
     modifier: Modifier
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.clickable (onClick = onOptionSelected),
         verticalAlignment = Alignment.CenterVertically
     ) {
         RadioButton(
             selected = isSelected,
-            onClick = onOptionSelected // RadioButton di-handle oleh onClick di Row
+            onClick = null // RadioButton di-handle oleh onClick di Row
         )
         Text(
             text = label,

@@ -15,7 +15,7 @@ class MainViewModel : ViewModel() {
                     i.toLong(),
                     "Zaki $i",
                     "Rp 100000$i",
-                    "3 Bulan",
+                    "6 Bulan",
                     "2024-05-$i 12:34:56"
                 )
             )
