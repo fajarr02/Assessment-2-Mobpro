@@ -38,13 +38,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import org.d3if3141.asessment2mobpro.R
 import org.d3if3141.asessment2mobpro.model.Peminjaman
+import org.d3if3141.asessment2mobpro.navigation.Screen
 
+const val KEY_ID_PEMINJAMAN = "idPeminjaman"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
-    val context = LocalContext.current
+fun MainScreen(navController: NavHostController) {
+
 
     Scaffold (
         topBar = {
@@ -60,7 +64,7 @@ fun MainScreen() {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    Toast.makeText(context, R.string.tambah_eror, Toast.LENGTH_SHORT).show()
+                    navController.navigate(Screen.FormBaru.route)
                 }
             ) {
                 Icon(
@@ -71,18 +75,17 @@ fun MainScreen() {
             }
         }
     ){ padding ->
-        ScreenContent(modifier =Modifier.padding(padding))
+        ScreenContent(modifier =Modifier.padding(padding), navController)
     }
 }
 
 @Composable
-fun ScreenContent(modifier: Modifier) {
+fun ScreenContent(modifier: Modifier, navController: NavHostController) {
 
     val viewModel: MainViewModel = viewModel()
     val data = viewModel.data
 
     // val data = emptyList<Peminjaman>
-    val context = LocalContext.current
 
     if (data.isEmpty()) {
         Column(
@@ -113,8 +116,7 @@ fun ScreenContent(modifier: Modifier) {
         ) {
             items(data) {
                 ListItem(peminjaman = it) {
-                    val pesan = context.getString(R.string.x_klik, it.nama)
-                    Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
+                    navController.navigate(Screen.FormUbah.withId(it.id))
                 }
             }
         }
@@ -159,7 +161,7 @@ fun ListItem(peminjaman: Peminjaman, onClick: () ->Unit) {
 @Composable
 fun ScreenPreview() {
     MaterialTheme {
-        MainScreen()
+        MainScreen(rememberNavController())
     }
 }
 

@@ -4,10 +4,17 @@
     <string name="x_klik">%1$s diklik!</string>
 
     <string name="tambah_peminjaman">Tambah Peminjaman</string>
+    <string name="edit_peminjaman">Edit Peminjaman</string>
     <string name="tambah_eror">Belum bisa tambah peminjaman</string>
 
     <string name="nama">Nama</string>
     <string name="jumlah">Jumlah</string>
     <string name="tenggat">Tenggat</string>
+
+    <string name="kembali">Kembali</string>
+    <string name="simpan">Simpan</string>
+
+    <string name="enambln">6 Bulan</string>
+    <string name="tigabln">3 Bulan</string>
 
 </resources>
