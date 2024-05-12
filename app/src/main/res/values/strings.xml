@@ -5,4 +5,9 @@
 
     <string name="tambah_peminjaman">Tambah Peminjaman</string>
     <string name="tambah_eror">Belum bisa tambah peminjaman</string>
+
+    <string name="nama">Nama</string>
+    <string name="jumlah">Jumlah</string>
+    <string name="tenggat">Tenggat</string>
+
 </resources>
