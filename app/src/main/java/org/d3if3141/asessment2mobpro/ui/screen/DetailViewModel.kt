@@ -27,13 +27,22 @@ class DetailViewModel(private val  dao: PinjamanDao): ViewModel() {
         }
     }
 
-    fun getPeminjaman(id: Long): Peminjaman {
-        return Peminjaman(
-            id,
-            "Zaki $id",
-            "Rp 100000$id",
-            "6 Bulan",
-            "2024-05-$id 12:34:56"
+    suspend fun getPeminjaman(id: Long): Peminjaman? {
+        return dao.getPeminjamanById(id)
+    }
+
+
+    fun update(id: Long, nama: String, jumlah: String, tenggat: String) {
+        val peminjaman = Peminjaman(
+            id = id,
+            tanggal = formatter.format(Date()),
+            nama = nama,
+            jumlah = jumlah,
+            tenggat = tenggat,
         )
+
+        viewModelScope.launch(Dispatchers.IO) {
+            dao.update(peminjaman)
+        }
     }
 }
