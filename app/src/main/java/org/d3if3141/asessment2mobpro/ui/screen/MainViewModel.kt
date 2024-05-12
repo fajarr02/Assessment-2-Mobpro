@@ -1,26 +1,19 @@
 package org.d3if3141.asessment2mobpro.ui.screen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
+import org.d3if3141.asessment2mobpro.database.PinjamanDao
 import org.d3if3141.asessment2mobpro.model.Peminjaman
 
-class MainViewModel : ViewModel() {
+class MainViewModel(dao: PinjamanDao) : ViewModel() {
 
-    val data = getDataDummy()
-
-    private fun getDataDummy(): List<Peminjaman> {
-        val data = mutableListOf<Peminjaman>()
-        for (i in 29 downTo 20){
-            data.add(
-                Peminjaman(
-                    i.toLong(),
-                    "Zaki $i",
-                    "Rp 100000$i",
-                    "6 Bulan",
-                    "2024-05-$i 12:34:56"
-                )
-            )
-        }
-        return data
-    }
+    val data: StateFlow<List<Peminjaman>> = dao.getPeminjaman().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000L),
+        initialValue = emptyList()
+    )
 
 }

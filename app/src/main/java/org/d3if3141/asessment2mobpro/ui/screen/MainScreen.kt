@@ -26,6 +26,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -41,8 +43,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.d3if3141.asessment2mobpro.R
+import org.d3if3141.asessment2mobpro.database.PinjamanDb
 import org.d3if3141.asessment2mobpro.model.Peminjaman
 import org.d3if3141.asessment2mobpro.navigation.Screen
+import org.d3if3141.asessment2mobpro.util.ViewModelFactory
 
 const val KEY_ID_PEMINJAMAN = "idPeminjaman"
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,10 +86,11 @@ fun MainScreen(navController: NavHostController) {
 @Composable
 fun ScreenContent(modifier: Modifier, navController: NavHostController) {
 
-    val viewModel: MainViewModel = viewModel()
-    val data = viewModel.data
-
-    // val data = emptyList<Peminjaman>
+    val context = LocalContext.current
+    val db = PinjamanDb.getInstance(context)
+    val factory = ViewModelFactory(db.dao)
+    val viewModel: MainViewModel =  viewModel(factory = factory)
+    val data by viewModel.data.collectAsState()
 
     if (data.isEmpty()) {
         Column(
