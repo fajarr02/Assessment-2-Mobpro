@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Cloan</string>
+    <string name="data_kosong">Belum ada data</string>
+    <string name="x_klik">%1$s diklik!</string>
+
+    <string name="tambah_peminjaman">Tambah Peminjaman</string>
+    <string name="tambah_eror">Belum bisa tambah peminjaman</string>
 </resources>
