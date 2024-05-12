@@ -23,4 +23,7 @@ interface PinjamanDao {
     @Query("SELECT * FROM pinjaman WHERE id = :id")
     suspend fun getPeminjamanById(id: Long): Peminjaman?
 
+    @Query("DELETE FROM pinjaman WHERE id = :id")
+    suspend fun deleteById(id: Long)
+
 }

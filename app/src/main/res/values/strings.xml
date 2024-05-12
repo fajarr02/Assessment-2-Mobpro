@@ -19,4 +19,6 @@
 
     <string name="invalid">nama, jumlah dan tenggat cacatan tidak boleh kosong.</string>
 
+    <string name="lainya">Opsi lainnya</string>
+    <string name="hapus">Hapus cacatan</string>
 </resources>
